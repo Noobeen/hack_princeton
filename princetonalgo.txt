@@ -1,0 +1,11 @@
+project
+│
+├── app.py            # main Flask application
+├── templates         # HTML templates
+│   ├── register.html
+│   ├── login.html
+│   └── index.html
+├── static
+│   ├── style.css     # CSS file
+│   └── pprinceton.png # Logo file
+└── database.db       # SQLite database (auto-created)
