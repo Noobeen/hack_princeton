@@ -4,14 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chatbot Introduction</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
     <div class="intro">
-        <img src="{{ url_for('static', filename='logo.png') }}" id="logo" alt="Team Logo">
         <h1>Welcome to Our Chatbot</h1>
         <p>This chatbot lets you interact with the voices of historical figures, offering insights into spirituality, general knowledge, history, literature, and arts.</p>
     </div>
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <!-- Container for the 3D animation -->
+    <div id="3d-container"></div>
+    <script src="script.js"></script>
 </body>
 </html>
