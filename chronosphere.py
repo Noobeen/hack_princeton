@@ -1,13 +1,15 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
-import base64
+import streamlit as st
+from st_clickable_images import clickable_images
 
-# Function to read image as base64
-@st.cache_data
-def get_img_as_base64(file):
-    with open(file, "rb") as f:
-        data = f.read()
-    return base64.b64encode(data).decode()
+
+def run_file(filepath):
+    with open(filepath, 'r', encoding='utf-8') as file:
+        file_content = file.read()
+    exec(file_content, globals())
+
+
 
 # Function to display character selection page with 4 buttons per row
 def index_page():
@@ -15,44 +17,27 @@ def index_page():
     st.write("""Try introducing yourself to one of the following prominent individuals from our recent and ancient history.
             """)
     
-    # List of characters and their image filenames
-    characters = [
-        {"name": "Buddha", "image": "images/characters/buddha.jpg"},
-        {"name": "Cleo", "image": "images/characters/cleo.jpg"},
-        {"name": "Einstein", "image": "images/characters/einstein.jpg"},
-        {"name": "Elon", "image": "images/characters/elon.jpg"},
-        {"name": "Gandhi", "image": "images/characters/gandhi.jpg"},
-        {"name": "Socrates", "image": "images/characters/socrates.jpg"},
-        {"name": "Vinci", "image": "images/characters/vinci.jpg"},
-        {"name": "Sudi", "image": "images/sudip.jpg"}
-    ]
+    clicked = clickable_images(
+    [
+        "https://github.com/Noobeen/hack_princeton/blob/main/images/characters/buddha.jpg?raw=true",
+        "https://github.com/Noobeen/hack_princeton/blob/main/images/characters/einstein.jpg?raw=true",
+        "https://github.com/Noobeen/hack_princeton/blob/main/images/characters/gandhi.jpg?raw=true",
+        "https://github.com/Noobeen/hack_princeton/blob/main/images/characters/elon.jpg?raw=true",
+        "https://github.com/Noobeen/hack_princeton/blob/main/images/characters/vinci.jpg?raw=true",
+        "https://github.com/Noobeen/hack_princeton/blob/main/images/characters/cleo.jpg?raw=true",
+        "https://github.com/Noobeen/hack_princeton/blob/main/images/characters/socrates.jpg?raw=true",
+        "https://github.com/Noobeen/hack_princeton/blob/main/images/sudip.jpg?raw=true",
+    ],
+    titles=[f"Image #{str(i)}" for i in range(5)],
+    div_style={"display": "flex", "justify-content": "center", "flex-wrap": "wrap"},
+    img_style={"margin": "5px", "height": "200px"},
+)
 
-    for row in range(2):  # 2 rows (since there are 6 characters, 3 per row)
-        cols = st.columns(4)
-        for i in range(4):
-            char_index = row * 4 + i
-            if char_index >= len(characters):  # Avoid index out of range if there are fewer characters than expected
-                break
-            char_name = characters[char_index]["name"]
-            img_path = characters[char_index]["image"]
-            img_base64 = get_img_as_base64(img_path)
-            
-            with cols[i]:
-                # Display button with an image inside
-                button_html = f"""
-                <button style="background-image: url(data:image/jpg;base64,{img_base64}); 
-                                background-size: cover; 
-                                width: 100%; height: 160px; 
-                                border: none; cursor: pointer;">
-                </button>
-                """
-                if st.markdown(button_html, unsafe_allow_html=True):
-                    pass
+    if clicked==1:
+        run_file("buddha.py")
 
-def run_file(filepath):
-    with open(filepath, 'r', encoding='utf-8') as file:
-        file_content = file.read()
-    exec(file_content, globals())
+    st.markdown(f"Image #{clicked} clicked" if clicked > -1 else "No image clicked")
+
 
 # Navigation Bar
 selected = option_menu(
@@ -77,3 +62,6 @@ if selected == "Character Selection":
     index_page()
 elif selected == "About Us":
     run_file("aboutUs.py")
+
+
+
