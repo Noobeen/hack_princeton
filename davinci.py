@@ -146,7 +146,7 @@ conversational_rag_chain = RunnableWithMessageHistory(
 
 
 ## Passing to streamlit and running our chatbot 
-st.title("Herschel")
+st.title("Da Vinci")
 Prompt= st.chat_input("Enter you queries here : ")# taking prompt for the user
 if Prompt:
     st.write(f"You have sent following prompt: {Prompt}")
