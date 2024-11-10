@@ -1,4 +1,8 @@
-#from api import Embd_key,lang, key
+
+import sys
+__import__('pysqlite3')
+import pysqlite3
+sys.modules['sqlite3'] = sys.modules["pysqlite3"]
 from langchain.chains import create_history_aware_retriever,create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_chroma import Chroma
@@ -20,7 +24,7 @@ from playsound import playsound  # or use pydub for more flexibility
 import os
 
 
-chromadb.api.client.SharedSystemClient.clear_system_cache()
+#chromadb.api.client.SharedSystemClient.clear_system_cache()
 #os.environ["LANGCHAIN_TRACING_V2"] = "true"
 #os.environ["LANGCHAIN_API_KEY"]= lang # Api key imported from api.py which user can create in their own device
 Embd_key=st.secrets["OPENAI_API_KEY"]
