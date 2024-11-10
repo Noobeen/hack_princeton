@@ -1,4 +1,4 @@
-from api import Embd_key
+from api import Embd_key,lang, key
 from langchain.chains import create_history_aware_retriever,create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_chroma import Chroma
@@ -12,21 +12,65 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_ollama import ChatOllama
 import streamlit as st
 import os
-from Locallm import llm #importing from locallm.py to intialize local model : llama 3.2:3B
+import chromadb
 from hist import get_session_history,store #importing from hist.py
-os.environ["LANGCHAIN_TRACING_V2"] = "true"
-os.environ["LANGCHAIN_API_KEY"]= lang # Api key imported from api.py which user can create in their own device
-from gtts import gTTS
+
+import requests
+from playsound import playsound  # or use pydub for more flexibility
+import os
 
 
+chromadb.api.client.SharedSystemClient.clear_system_cache()
+#os.environ["LANGCHAIN_TRACING_V2"] = "true"
+#os.environ["LANGCHAIN_API_KEY"]= lang # Api key imported from api.py which user can create in their own device
 os.environ["OPENAI_API_KEY"] =Embd_key # Api key imported from api.py which user can create in their own device
 
+llm = ChatOpenAI(
+    model="gpt-4o",
+    temperature=0,
+    max_tokens=None,
+    timeout=None,
+    max_retries=2,
+)
+
+
+# Set up your API key and endpoint
+API_KEY = key
+VOICE_ID = "ptcHeEBdBSfE6dSrGsoW"  # Replace with the ID of the voice you want to use
+API_URL = f"https://api.elevenlabs.io/v1/text-to-speech/{VOICE_ID}"
+
+def speak_text(text):
+    headers = {
+        "xi-api-key": API_KEY,
+        "Content-Type": "application/json",
+    }
+    data = {
+        "text": text,
+        "model_id": "eleven_monolingual_v1",  # Set model as required
+    }
+
+    # Send request to ElevenLabs API
+    response = requests.post(API_URL, json=data, headers=headers)
+    if response.status_code == 200:
+        # Save audio to file
+        audio_file = "output.mp3"
+        with open(audio_file, "wb") as file:
+            file.write(response.content)
+
+        # Play the audio file
+        playsound(audio_file)
+
+        # Optional: Delete the file after playing
+        os.remove(audio_file)
+    else:
+        print("Error:", response.status_code, response.text)
 
 
 
 ### Constructing retriever for RAG ###
-loader = TextLoader(file_path="Buddha.txt")
+loader = TextLoader(file_path="buddha.txt")
 data=loader.load()
+
 
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
 splits = text_splitter.split_documents(data)
@@ -35,11 +79,13 @@ vectorstore = Chroma.from_documents(documents=splits, embedding=OpenAIEmbeddings
 retriever = vectorstore.as_retriever()
 
 
+
 ### Contextualizing question ###
 contextualize_q_system_prompt = """Given a chat history and the latest user question \
 which might reference context in the chat history, formulate a standalone question \
 which can be understood without the chat history. Do NOT answer the question, \
 just reformulate it if needed and otherwise return it as is."""
+
 contextualize_q_prompt = ChatPromptTemplate.from_messages(
     [
         ("system", contextualize_q_system_prompt),
@@ -64,7 +110,12 @@ Self-Reflection: Prompt self-awareness in others, encouraging them to look inwar
 Non-Judgmental Wisdom: Respond without judgment or attachment, remaining a source of calm and steady insight.
 Encouragement of Growth: Gently guide others toward personal development, peace, and enlightenment.
 
-In every response, embody these qualities, remaining grounded in compassion, free from anger, and always inspiring others toward peace, self-knowledge, and kindness."
+In every response, embody these qualities, remaining grounded in compassion, free from anger, and always inspiring others toward peace, self-knowledge, and kindness.
+
+answer your question with the wisdom and compassion of Buddha.
+
+answer should be in plain text without any text formating.
+answer should be not more than a paragraph. 
 
 {context}"""
 
@@ -103,8 +154,6 @@ if Prompt:
     language = 'en'
 
     st.header(ans)# printing output 
-    myobj = gTTS(text=ans, lang=language, slow=False)
-    myobj.save("welcome.mp3")
-    os.system("start welcome.mp3")
+    speak_text(ans)
 else:
     exit
