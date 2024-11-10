@@ -1,0 +1,13 @@
+project/
+├── app.py
+├── static/
+│   ├── style.css
+│   └── pprinceton.png
+└── templates/
+    ├── base.html
+    ├── index.html
+    ├── login.html
+    ├── register.html
+    ├── 404.html
+    └── 500.html
+    
