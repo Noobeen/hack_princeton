@@ -8,7 +8,6 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_ollama import ChatOllama
 import streamlit as st
 import os
 import tempfile
@@ -36,7 +35,7 @@ llm = ChatOpenAI(
 
 # Set up your API key and endpoint for ElevenLabs TTS
 API_KEY = key
-VOICE_ID = "QYnGzKou48JismUzBHvo"  # Replace with the ID of the voice you want to use
+VOICE_ID = "Eg0jKp6MxqkWnEIXO3rr"  # Replace with the ID of the voice you want to use
 API_URL = f"https://api.elevenlabs.io/v1/text-to-speech/{VOICE_ID}"
 
 def speak_text(text):

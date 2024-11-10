@@ -6,9 +6,7 @@ langchain_community
 langchain_core
 langchain_openai
 langchain_text_splitters
-langchain_ollama
 streamlit
-chromadb
 faiss-cpu
 requests
 pydub

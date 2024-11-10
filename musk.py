@@ -36,7 +36,7 @@ llm = ChatOpenAI(
 
 # Set up your API key and endpoint for ElevenLabs TTS
 API_KEY = key
-VOICE_ID = "cAG6uinqhezPSFz6uVup"  # Replace with the ID of the voice you want to use
+VOICE_ID = "JBFqnCBsd6RMkjVDRZzb"  # Replace with the ID of the voice you want to use
 API_URL = f"https://api.elevenlabs.io/v1/text-to-speech/{VOICE_ID}"
 
 def speak_text(text):
