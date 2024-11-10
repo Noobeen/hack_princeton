@@ -110,8 +110,8 @@ st.markdown(
 st.markdown(
    """
     <div style="background-color: rgba(0,0,0,0); padding: 10px;">
-        <p style="color:#fff;">Welcome! We’re excited to introduce you to “Chronosphere.” The place, where people from different timelines and perspectives come together at a common ground and learn.
-        An interesting way to communicate with your favorite characters from curriculum as well as non-curriculum books.</p>
+        <p style="color:#fff;">Welcome! We’re excited to introduce you to “Chronosphere.” The place, where people from different timelines and perspectives come together at a common ground to learn.
+        <br>An interesting way to communicate with your favorite characters from curriculum as well as non-curriculum books and beyond!</p>
     </div>
     """,
     unsafe_allow_html=True
