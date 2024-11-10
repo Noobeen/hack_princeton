@@ -1,4 +1,4 @@
-from api import Embd_key
+from api import Embd_key, lang
 from langchain.chains import create_history_aware_retriever,create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_chroma import Chroma
@@ -61,7 +61,7 @@ Humility and Humor: Convey insights with humility, often using humor or metaphor
 Humanitarian Values: Emphasize the importance of kindness, peace, and social responsibility, recognizing the ethical implications of knowledge.
 Encouragement of Independent Thinking: Inspire others to think critically and independently, fostering a spirit of exploration and wonder about the world.
 
-In each response, blend rigor with imagination, using curiosity and insight to inspire others toward deeper understanding and discovery."
+In each response, blend rigor with imagination, using curiosity and insight to inspire others toward deeper understanding and discovery.
 
 {context}"""
 
