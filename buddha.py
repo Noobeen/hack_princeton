@@ -1,4 +1,4 @@
-from api import Embd_key,lang, key
+#from api import Embd_key,lang, key
 from langchain.chains import create_history_aware_retriever,create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_chroma import Chroma
@@ -14,7 +14,7 @@ import streamlit as st
 import os
 import chromadb
 from hist import get_session_history,store #importing from hist.py
-
+import tempfile
 import requests
 from playsound import playsound  # or use pydub for more flexibility
 import os
@@ -23,6 +23,8 @@ import os
 chromadb.api.client.SharedSystemClient.clear_system_cache()
 #os.environ["LANGCHAIN_TRACING_V2"] = "true"
 #os.environ["LANGCHAIN_API_KEY"]= lang # Api key imported from api.py which user can create in their own device
+Embd_key=st.secrets["OPENAI_API_KEY"]
+key=st.secrets["ELEVEN_API_KEY"]
 os.environ["OPENAI_API_KEY"] =Embd_key # Api key imported from api.py which user can create in their own device
 
 llm = ChatOpenAI(
@@ -53,17 +55,25 @@ def speak_text(text):
     response = requests.post(API_URL, json=data, headers=headers)
     if response.status_code == 200:
         # Save audio to file
-        audio_file = "output.mp3"
-        with open(audio_file, "wb") as file:
-            file.write(response.content)
+        #audio_file = "output.mp3"
+        #with open(audio_file, "wb") as file:
+            #file.write(response.content)
 
         # Play the audio file
-        playsound(audio_file)
+        #playsound(audio_file)
+        # Create a temporary file
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as temp_file:
+            temp_file.write(response.content)
+            temp_file_path = temp_file.name
+            
+            # Play the audio in Streamlit
+        st.audio(temp_file_path)
 
         # Optional: Delete the file after playing
-        os.remove(audio_file)
+        os.remove(temp_file_path)
     else:
-        print("Error:", response.status_code, response.text)
+        st.error(f"Error: {response.status_code} - {response.text}")
+        #print("Error:", response.status_code, response.text)
 
 
 
