@@ -12,7 +12,6 @@ import streamlit as st
 import os
 import tempfile
 import requests
-from playsound import playsound  # or use pydub for more flexibility
 from hist import get_session_history, store  # importing from hist.py
 
 # Clear FAISS system cache if needed (optional)
