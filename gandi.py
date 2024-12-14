@@ -14,10 +14,6 @@ import tempfile
 import requests
 from hist import get_session_history, store  # importing from hist.py
 
-# Clear FAISS system cache if needed (optional)
-# FAISS does not have a direct method like Chroma's clear_system_cache,
-# but you can reinitialize the vectorstore as needed.
-
 # Accessing secrets
 Embd_key = st.secrets["OPENAI_API_KEY"]
 key = st.secrets["ELEVEN_API_KEY"]
@@ -34,7 +30,7 @@ llm = ChatOpenAI(
 
 # Set up your API key and endpoint for ElevenLabs TTS
 API_KEY = key
-VOICE_ID = "nZptPqACGe9qLrBchcWI"  # Replace with the ID of the voice you want to use
+VOICE_ID = "nZptPqACGe9qLrBchcWI"  
 API_URL = f"https://api.elevenlabs.io/v1/text-to-speech/{VOICE_ID}"
 
 def speak_text(text):
@@ -44,7 +40,7 @@ def speak_text(text):
     }
     data = {
         "text": text,
-        "model_id": "eleven_monolingual_v1",  # Set model as required
+        "model_id": "eleven_monolingual_v1", 
     }
 
     # Send request to ElevenLabs API
